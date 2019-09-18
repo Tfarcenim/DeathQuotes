@@ -1,16 +1,20 @@
 package com.cazsius.deathquotes;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 
 import java.util.Random;
 
+@Mod.EventBusSubscriber
 public class ForgeHooks {
 
     @SubscribeEvent
-    public void LivingDeathEvent(LivingDeathEvent event) {
+    public static void LivingDeathEvent(LivingDeathEvent event) {
         if (event.getEntity().world.isRemote) {
             return;
         } // server side only
@@ -39,7 +43,10 @@ public class ForgeHooks {
                 Do.Err(player, "file " + DeathQuotes.quotesPathAndFileName + " contains blank lines and it should not.");
             }
         }
-        Do.SayToAll(player, "\"" + DeathQuotes.quotes[n] + "\"");
+        StringTextComponent broadcastMessage = new StringTextComponent("\"" + DeathQuotes.quotes[n] + "\"");
+        player.getServer().getPlayerList().sendMessage(broadcastMessage);
         return;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.cazsius.deathquotes;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -32,7 +33,6 @@ public class DeathQuotes {
     public static String theNewLine = "\n";
 
     public DeathQuotes() {
-
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -40,6 +40,7 @@ public class DeathQuotes {
     }
 
     private void setup(final FMLCommonSetupEvent event) {
+
         if ( isWindowsOS ) { theNewLine = "\r\n"; }
 
         // if no quotes file in config folder create the default from the one in the jar file assets folder
