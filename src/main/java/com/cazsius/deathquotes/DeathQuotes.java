@@ -1,9 +1,7 @@
 package com.cazsius.deathquotes;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
@@ -13,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 @Mod(DeathQuotes.ID)
 public class DeathQuotes {
@@ -33,10 +31,7 @@ public class DeathQuotes {
     public static String theNewLine = "\n";
 
     public DeathQuotes() {
-        ModLoadingContext modLoadingContext = ModLoadingContext.get();
-
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -46,15 +41,13 @@ public class DeathQuotes {
         // if no quotes file in config folder create the default from the one in the jar file assets folder
         if (! Do.fileExists(quotesPathAndFileName) )
         { String output = "";
-            BufferedReader readBuffer = null;
-            String aLine = "";
-            Boolean addWithNewline = false;
-            Boolean readingLines = true;
-            try { readBuffer = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("assets/"+quotesFileName), "UTF-8")); } // open the input stream
-            catch (UnsupportedEncodingException e1) { readingLines = false; Do.Err("The file "+ quotesFileName + " seems to be missing in the jar file and the config folder."); }
+            boolean addWithNewline = false;
+            boolean readingLines = true;
+            BufferedReader readBuffer = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("assets/" + quotesFileName), StandardCharsets.UTF_8));
             while ( readingLines ) {
                 // aLine = readBuffer.readLine(); // THIS SCREWS UP reading single quotes in the file and changes them to a question mark!! in mc1.9 and up! so bs!
-                aLine = readTextLine(readBuffer); // read the next line
+                // read the next line
+                String aLine = readTextLine(readBuffer);
                 if ( aLine != null )
                 {	if (! aLine.matches("^\\s*$") ) { // if it is not a blank line
                     if (addWithNewline) { output += theNewLine; } else { addWithNewline = true; } // prevents a blank line at end of the output file

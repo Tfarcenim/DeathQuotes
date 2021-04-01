@@ -1,12 +1,12 @@
 package com.cazsius.deathquotes;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
 
 import java.util.Random;
 
@@ -44,7 +44,7 @@ public class ForgeHooks {
             }
         }
         StringTextComponent broadcastMessage = new StringTextComponent("\"" + DeathQuotes.quotes[n] + "\"");
-        player.getServer().getPlayerList().sendMessage(broadcastMessage);
+        player.getServer().getPlayerList().func_232641_a_(broadcastMessage, ChatType.CHAT, Util.DUMMY_UUID);
         return;
     }
 

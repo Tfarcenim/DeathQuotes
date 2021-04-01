@@ -1,6 +1,7 @@
 modLoader="javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
 loaderVersion="[28,)" #mandatory (28 is current forge version)
+license="All Rights Reserved"
 [[mods]] #mandatory
 modId="deathquotes" #mandatory
 version="${file.jarVersion}" #mandatory
